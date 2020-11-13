@@ -5,7 +5,7 @@
         "NumericCode": 4,
         "Latitude": 33,
         "Longitude": 65
-    },
+    }, 
     "ALB": {
         "Alpha2": "AL",
         "Country": "Albania",
@@ -176,13 +176,6 @@
     },
     "BOL": {
         "Alpha2": "BO",
-        "Country": "Bolivia, Plurinational State of",
-        "NumericCode": 68,
-        "Latitude": -17,
-        "Longitude": -65
-    },
-    "BOL": {
-        "Alpha2": "BO",
         "Country": "Bolivia",
         "NumericCode": 68,
         "Latitude": -17,
@@ -222,13 +215,6 @@
         "NumericCode": 86,
         "Latitude": -6,
         "Longitude": 71.5
-    },
-    "BRN": {
-        "Alpha2": "BN",
-        "Country": "Brunei Darussalam",
-        "NumericCode": 96,
-        "Latitude": 4.5,
-        "Longitude": 114.6667
     },
     "BRN": {
         "Alpha2": "BN",
@@ -376,13 +362,6 @@
         "NumericCode": 188,
         "Latitude": 10,
         "Longitude": -84
-    },
-    "CIV": {
-        "Alpha2": "CI",
-        "Country": "Côte d'Ivoire",
-        "NumericCode": 384,
-        "Latitude": 8,
-        "Longitude": -5
     },
     "CIV": {
         "Alpha2": "CI",
@@ -832,13 +811,6 @@
         "Latitude": 37,
         "Longitude": 127.5
     },
-    "KOR": {
-        "Alpha2": "KR",
-        "Country": "South Korea",
-        "NumericCode": 410,
-        "Latitude": 37,
-        "Longitude": 127.5
-    },
     "KWT": {
         "Alpha2": "KW",
         "Country": "Kuwait",
@@ -891,13 +863,6 @@
     "LBY": {
         "Alpha2": "LY",
         "Country": "Libyan Arab Jamahiriya",
-        "NumericCode": 434,
-        "Latitude": 25,
-        "Longitude": 17
-    },
-    "LBY": {
-        "Alpha2": "LY",
-        "Country": "Libya",
         "NumericCode": 434,
         "Latitude": 25,
         "Longitude": 17
@@ -1080,13 +1045,6 @@
     "MMR": {
         "Alpha2": "MM",
         "Country": "Myanmar",
-        "NumericCode": 104,
-        "Latitude": 22,
-        "Longitude": 98
-    },
-    "MMR": {
-        "Alpha2": "MM",
-        "Country": "Burma",
         "NumericCode": 104,
         "Latitude": 22,
         "Longitude": 98
@@ -1303,13 +1261,6 @@
     },
     "RUS": {
         "Alpha2": "RU",
-        "Country": "Russian Federation",
-        "NumericCode": 643,
-        "Latitude": 60,
-        "Longitude": 100
-    },
-    "RUS": {
-        "Alpha2": "RU",
         "Country": "Russia",
         "NumericCode": 643,
         "Latitude": 60,
@@ -1353,20 +1304,6 @@
     "VCT": {
         "Alpha2": "VC",
         "Country": "Saint Vincent and the Grenadines",
-        "NumericCode": 670,
-        "Latitude": 13.25,
-        "Longitude": -61.2
-    },
-    "VCT": {
-        "Alpha2": "VC",
-        "Country": "Saint Vincent & the Grenadines",
-        "NumericCode": 670,
-        "Latitude": 13.25,
-        "Longitude": -61.2
-    },
-    "VCT": {
-        "Alpha2": "VC",
-        "Country": "St. Vincent and the Grenadines",
         "NumericCode": 670,
         "Latitude": 13.25,
         "Longitude": -61.2
@@ -1541,13 +1478,6 @@
     },
     "TWN": {
         "Alpha2": "TW",
-        "Country": "Taiwan, Province of China",
-        "NumericCode": 158,
-        "Latitude": 23.5,
-        "Longitude": 121
-    },
-    "TWN": {
-        "Alpha2": "TW",
         "Country": "Taiwan",
         "NumericCode": 158,
         "Latitude": 23.5,
@@ -1605,13 +1535,6 @@
     "TTO": {
         "Alpha2": "TT",
         "Country": "Trinidad and Tobago",
-        "NumericCode": 780,
-        "Latitude": 11,
-        "Longitude": -61
-    },
-    "TTO": {
-        "Alpha2": "TT",
-        "Country": "Trinidad & Tobago",
         "NumericCode": 780,
         "Latitude": 11,
         "Longitude": -61
@@ -1713,27 +1636,6 @@
         "NumericCode": 548,
         "Latitude": -16,
         "Longitude": 167
-    },
-    "VEN": {
-        "Alpha2": "VE",
-        "Country": "Venezuela, Bolivarian Republic of",
-        "NumericCode": 862,
-        "Latitude": 8,
-        "Longitude": -66
-    },
-    "VEN": {
-        "Alpha2": "VE",
-        "Country": "Venezuela",
-        "NumericCode": 862,
-        "Latitude": 8,
-        "Longitude": -66
-    },
-    "VNM": {
-        "Alpha2": "VN",
-        "Country": "Viet Nam",
-        "NumericCode": 704,
-        "Latitude": 16,
-        "Longitude": 106
     },
     "VNM": {
         "Alpha2": "VN",
