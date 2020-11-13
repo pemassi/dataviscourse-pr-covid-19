@@ -1,12 +1,21 @@
-# dataviscourse-pr-covid-19
-The University of Utah CS 5630 Project
+# COVID-19
 
-# Testing
-To access the data files with Javascript, you will need to serve folder via HTTP server. You might use Python with following commonds.
+> CS 5360 Project
 
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
 ```
-# for python 2
-python -m SimpleHTTPServer
-# for python 3
-python -m http.server
-```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
