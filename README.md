@@ -3,9 +3,10 @@
 > CS 5360 Project
 
 ## Build Setup
+In order to build the project, you need to install [`Node.js`](https://nodejs.org/en/) and `npm` fisrt. (If you install `Node.js`, `npm` will be installed together.)
 
 ``` bash
-# install dependencies
+# install dependencies (REQUIRE)
 npm install
 
 # serve with hot reload at localhost:8080
@@ -17,5 +18,3 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
