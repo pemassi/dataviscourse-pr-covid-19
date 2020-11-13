@@ -5,7 +5,9 @@
 </template>
 
 <script>
-
+var googleStyles = require("@/assets/data/google-map-style.json")
+var covidData = require("@/assets/data/owid-covid-data-2020-11-14.json")
+var latlngMapping = require("@/assets/data/latlng.json")
 
 export default {
   name: 'HelloWorld',
@@ -19,10 +21,20 @@ export default {
       zoom: 4,
       center: new google.maps.LatLng(44.193444, 28.649466),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      styles: require("@/assets/data/google-map-style.json")
+      styles: googleStyles
     }
 
     new google.maps.Map(d3.select("#map").node(), options);
+
+    console.log(covidData);
+
+    for(var key in covidData)
+    {
+      let temp = latlngMapping[key];
+
+      if(temp == undefined)
+        console.log(key);
+    }
   }
 }
 </script>
