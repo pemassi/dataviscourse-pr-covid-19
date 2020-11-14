@@ -16,6 +16,8 @@
     </header>
 
     <div class="container-fluid">
+      <br/>
+
       <router-view/>
     </div>
 
