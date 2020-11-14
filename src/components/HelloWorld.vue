@@ -1,15 +1,16 @@
 <template>
   <div>
     <div id="map"></div>
+
   </div>
 </template>
 
 <script>
-var googleStyles = require("@/assets/data/google-map-style.json")
-var covidData = require("@/assets/data/owid-covid-data-2020-11-14.json")
-var latlngMapping = require("@/assets/data/latlng.json")
+  const googleStyles = require("@/assets/data/google-map-style.json");
+  const covidData = require("@/assets/data/owid-covid-data-2020-11-14.json");
+  const latlngMapping = require("@/assets/data/latlng.json");
 
-export default {
+  export default {
   name: 'HelloWorld',
   data () {
     return {
@@ -35,6 +36,9 @@ export default {
       if(temp == undefined)
         console.log(key);
     }
+
+
+
   }
 }
 </script>
