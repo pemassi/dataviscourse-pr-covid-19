@@ -19,6 +19,9 @@ const CovidData = {
   minDate: "2099-12-31",
 
   async initData() {
+    if(this.covidDataArray)
+      return this.covidDataArray
+  
     console.log(covidRawData)
     console.log(latlngMapping)
 
