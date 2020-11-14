@@ -230,6 +230,13 @@
     "Latitude": 13,
     "Longitude": -2
   },
+  "BES": {
+    "Alpha2": "BQ",
+    "Country": "Bonaire, Saint Eustatius and Saba",
+    "NumericCode": null,
+    "Latitude": 12.1784,
+    "Longitude": 68.2385
+  },
   "BDI": {
     "Alpha2": "BI",
     "Country": "Burundi",
@@ -1682,6 +1689,13 @@
     "NumericCode": 850,
     "Latitude": 18.3333,
     "Longitude": -64.8333
+  },
+  "VEN": {
+    "Alpha2": "VE",
+    "Country": "Venezuela",
+    "NumericCode": null,
+    "Latitude": 6.4238,
+    "Longitude": 66.5897
   },
   "WLF": {
     "Alpha2": "WF",

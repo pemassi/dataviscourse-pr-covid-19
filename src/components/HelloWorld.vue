@@ -9,7 +9,7 @@ var googleStyles = require("@/assets/data/google-map-style.json")
 
 import CoivdData, { CovidData } from "../service/covid.data.service"
 
-export default {
+  export default {
   name: 'HelloWorld',
   data () {
     return {
@@ -105,8 +105,6 @@ export default {
       overlay.setMap(this.map);
 
     }
-
-
   }
 }
 </script>
