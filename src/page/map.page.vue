@@ -8,7 +8,6 @@
 import CoivdData, { CovidData } from "../service/covid.data.service"
 
 export default {
-  name: 'HelloWorld',
   data () {
     return {
       map: undefined,

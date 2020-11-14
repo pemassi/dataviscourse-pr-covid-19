@@ -1,8 +1,17 @@
 <template>
-  <div id="app">
+  <div class="wrapper">
     <header>
-      <nav class="navbar navbar-light bg-light">
-          <span class="navbar-brand mb-0 h1">COVID19</span>
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <span class="navbar-brand mb-0 h1">COVID-19</span>
+
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Map</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Static</a>
+          </li>
+        </ul>
       </nav>
     </header>
 
@@ -10,7 +19,14 @@
       <router-view/>
     </div>
 
-    <footer>
+    <footer class="page-footer font-small blue">
+
+      <!-- Copyright -->
+      <div class="footer-copyright text-center py-3">© 2020 Copyright
+        Kyungyoon Kim, Daniel Pak
+      </div>
+      <!-- Copyright -->
+
     </footer>
 
   </div>
@@ -23,4 +39,16 @@ export default {
 </script>
 
 <style>
+html, body {
+    height: 100%;
+}
+
+.container-fluid, .wrapper {
+    height: 100%;
+}
+
+.content-area, .article-tree{
+    overflow:auto;
+    height: 100%;
+}
 </style>
