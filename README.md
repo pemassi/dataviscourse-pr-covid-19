@@ -27,7 +27,7 @@ npm run build --report
     
 - Feedback Exercise
 
-    https://docs.google.com/document/d/1WUEvCb8e5ter_Ulq-pZQ-YoIlmic4yYy6caD20JCBmI/edit
+    https://docs.google.com/document/d/1WUEvCb8e5ter_Ulq-pZQ-YoIlmic4yYy6caD20JCBmI/edit?usp=sharing
 
 - Process Book
 
