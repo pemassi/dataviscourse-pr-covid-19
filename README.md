@@ -1,6 +1,12 @@
-# COVID-19
+# Coronavirus Disease 19 viewed as Chronology
 
-> CS 5360 Project
+This repository is for the University of Utah CS 5630 (Visualization for Data Science) class project.
+
+## Project Owner
+
+- Kyungyoon Kim (ruddbs5302@gmail.com)
+ 
+- Daniel Pak (pic2725@gmail.com)
 
 ## Build Setup
 In order to build the project, you need to install [`Node.js`](https://nodejs.org/en/) and `npm` fisrt. (If you install `Node.js`, `npm` will be installed together.)
@@ -9,7 +15,7 @@ In order to build the project, you need to install [`Node.js`](https://nodejs.or
 # install dependencies (REQUIRE)
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:8080 (might be different port)
 npm run dev
 
 # build for production with minification
@@ -36,6 +42,19 @@ npm run build --report
 
 ## Reference
 
+- `owid-covid-data-2020-11-14.csv`
+    
+    https://ourworldindata.org/coronavirus-source-data
+
+    Free for everyone to use for all purpose
+
 - `latlng.csv`
 
     https://github.com/JulienGdnr/covid19/blob/master/latlng.csv
+
+    MIT License
+
+
+## License
+
+MIT License
