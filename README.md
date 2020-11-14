@@ -24,6 +24,10 @@ npm run build --report
 - Project Proposal
 
     https://docs.google.com/document/d/1wqGPpvBuiWRVnlom9NgzM7G__eHKfFmfBeiEERxivZo/edit?usp=sharing
+    
+- Feedback Exercise
+
+    https://docs.google.com/document/d/1WUEvCb8e5ter_Ulq-pZQ-YoIlmic4yYy6caD20JCBmI/edit?usp=sharing
 
 - Process Book
 
