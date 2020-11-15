@@ -5,12 +5,8 @@
         <span class="navbar-brand mb-0 h1">COVID-19</span>
 
         <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Map</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Static</a>
-          </li>
+          <li><router-link class="navLink" :to="{ name: 'Map' }">Map</router-link></li>
+          <li><router-link class="navLink" :to="{ name: 'Static' }">Static</router-link></li>
         </ul>
       </nav>
     </header>
@@ -44,6 +40,14 @@ export default {
 html, body {
     height: 100%;
 }
+.navLink {
+  color: #ffffff;
+  transition: transform .2s;
+  padding: 10px;
+}
+.navLink:hover {
+  color: #ffffff;
+}
 
 .container-fluid, .wrapper {
     height: 100%;
@@ -53,4 +57,5 @@ html, body {
     overflow:auto;
     height: 100%;
 }
+
 </style>
