@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import MapPage from '@/page/map.page.vue'
 import StaticPage from '@/page/static.page.vue'
 
+
 Vue.use(Router)
 
 export default new Router({
@@ -17,5 +18,7 @@ export default new Router({
       name: 'Static',
       component: StaticPage
     },
+
+
   ]
 })

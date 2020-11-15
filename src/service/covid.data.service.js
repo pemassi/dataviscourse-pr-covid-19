@@ -21,7 +21,7 @@ const CovidData = {
   async initData() {
     if(this.covidDataArray)
       return this.covidDataArray
-  
+
     console.log(covidRawData)
     console.log(latlngMapping)
 
@@ -53,12 +53,12 @@ const CovidData = {
       this.covidDataArray.push(temp)
     }
 
-    console.log(`Success to init COVID data. [${this.minDate} ~ ${this.maxDate}]`)
-    console.log(this.covidDataArray)
+    console.log(`Success to init COVID data. [${this.minDate} ~ ${this.maxDate}]`);
+    console.log(this.covidDataArray);
 
     return this.covidDataArray
   },
-    
+
   /**
    * Get data async
    */
