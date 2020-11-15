@@ -1,12 +1,13 @@
 <template>
   <div class="wrapper">
     <header>
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="navbar-Container">
         <span class="navbar-brand mb-0 h1">COVID-19</span>
 
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" >
           <li><router-link class="navLink" :to="{ name: 'Map' }">Map</router-link></li>
           <li><router-link class="navLink" :to="{ name: 'Static' }">Static</router-link></li>
+
         </ul>
       </nav>
     </header>
@@ -39,7 +40,10 @@ export default {
 <style>
 html, body {
     height: 100%;
+
 }
+
+
 .navLink {
   color: #ffffff;
   transition: transform .2s;
