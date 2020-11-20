@@ -3,7 +3,10 @@
     class="elevation-5 pt-4"
     :style="wrapperStyles"
   >
-    <div :id="id" />
+    <div :id="id" @click="counter++">
+
+
+    </div>
 
   </div>
 </template>
@@ -41,7 +44,11 @@ export default {
         y: {}
       },
       ddd: {},
-      id: 'timeLine-lineChart'
+      id: 'timeLine-lineChart',
+
+      changedDate: this.date,
+
+      counter:0,
     }
   },
   props: {
@@ -49,6 +56,11 @@ export default {
     d3Data: {
       type: Object,
       default: () => {}
+    },
+
+    date: {
+      type: String,
+      default: "2020-11-13",
     }
   },
   computed: {
@@ -66,6 +78,16 @@ export default {
     },
   },
   watch: {
+    changedDate(newVal, oldVal) {
+      console.log(`oldVal ${oldVal}, new value ${newVal}`)
+    },
+
+    counter(newVal, oldVal) {
+      this.$emit('changeDate', this.changedDate);
+      console.log(`changeDate ${this.changedDate}`);
+    },
+
+
     d3Data () {
       // X axis
       this.axis.x.values = d3.scaleLinear()
@@ -107,7 +129,12 @@ export default {
 
       this.draw();
       this.addListeners();
-    }
+    },
+
+
+
+
+
   },
   mounted () {
     d3.select(`#${this.id}`)
@@ -122,6 +149,7 @@ export default {
       .style('opacity', 0);
   },
   methods: {
+
     draw () {
       // translate(x, y) specifies where bar begin
       this.ddd.chart = this.ddd.svg.append('g')
@@ -130,6 +158,7 @@ export default {
         .data(this.d3Data.y)
         .enter()
         .append('rect');
+
 
       this.ddd.chart
         .attr('fill', (data, index) => {
@@ -151,19 +180,22 @@ export default {
     },
     addListeners () {
       let component = this;
+      let clickedDate = this.d3Data.x;
+      //console.log(date);
       this.ddd.chart
         .on('mouseover', function(yData, index) {
           let tooltipX = d3.event.pageX + 5;
           let tooltipY = d3.event.pageY - 100;
-          console.log(index);
-          //TODO : Display date on tooltip. add clicked feature to access clicked data
-          component.ddd.tooltip.html("New Cases : " + yData)
+          // console.log(index);
+          // console.log(date[index]);
+
+          component.ddd.tooltip.html(`Date : ${clickedDate[index]} <br> New Cases : ${yData}` )
             .style('left', `${tooltipX}px`)
             .style('top', `${tooltipY}px`)
             .style('opacity', 0.8);
 
           d3.select(this)
-            .style('opacity', .8)
+            .style('opacity', 0.5)
         })
         .on('mouseout', function(data) {
           component.ddd.tooltip.html('')
@@ -174,7 +206,14 @@ export default {
             .duration(300)
             .style('opacity', 1)
         });
-    }
+
+      this.ddd.chart.on("click", function (yData, index) {
+        // console.log(`Total New Cases : ${yData}`);
+        //this.changedDate = clickedDate[index];
+        this.changedDate = clickedDate[index];
+        console.log(`inside clicker event : ${this.changedDate}`);
+      });
+    },
 
 
   },
@@ -194,7 +233,6 @@ export default {
   }
 
   .tooltip {
-    font-family: 'Raleway';
     font-size: 1.5em;
     position: absolute;
     top: 0px;

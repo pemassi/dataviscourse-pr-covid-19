@@ -3,6 +3,7 @@
     <LineChart
       class="lineChart"
       :d3-data="d3Data"
+      @changeDate="updateDate($event)"
     ></LineChart>
 
     <div class="input-group mb-3">
@@ -12,7 +13,7 @@
       </div>
     </div>
 
-    <Map :date="selectedDate"></Map>
+    <Map :date="this.selectedDate"></Map>
   </div>
 </template>
 
@@ -30,12 +31,14 @@ export default {
   },
   data () {
     return {
-      selectedDate: "2020-11-13",
+      selectedDate: "2020-11-11",
 
       covidWorldData: [],
-      d3Data: {}
+      d3Data: {},
+      test: ""
     }
   },
+
   computed: {
     covidDataArray() {
       return CovidData.covidDataArray
@@ -47,8 +50,12 @@ export default {
       return CovidData.maxDate
     },
   },
+  watch: {
+
+  },
   mounted() {
-    //console.log(covidRawData["OWID_WRL"].data);
+    console.log("Covid World data");
+    console.log(covidRawData["OWID_WRL"].data);
     let d3DataX = [];
     let d3DataY = [];
     let d3Tooltip = [];
@@ -63,13 +70,22 @@ export default {
       y: d3DataY,
     };
 
-    console.log(this.d3Data)
+    //console.log(this.d3Data);
+
+
+
   },
   methods: {
     getD3data() {
       return this.d3Data;
+    },
+    updateDate : function(updatedData) {
+      this.selectedDate = updatedData;
+
+      console.log(this.selectedDate)
     }
   }
+
 }
 </script>
 
