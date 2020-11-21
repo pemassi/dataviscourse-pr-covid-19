@@ -82,7 +82,7 @@ export default {
     updateDate : function(updatedData) {
       this.selectedDate = updatedData;
 
-      console.log(this.selectedDate)
+      // console.log(this.selectedDate)
     }
   }
 

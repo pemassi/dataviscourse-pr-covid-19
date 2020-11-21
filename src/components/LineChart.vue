@@ -3,7 +3,7 @@
     class="elevation-5 pt-4"
     :style="wrapperStyles"
   >
-    <div :id="id" @click="counter++">
+    <div :id="id">
 
 
     </div>
@@ -79,13 +79,11 @@ export default {
   },
   watch: {
     changedDate(newVal, oldVal) {
-      console.log(`oldVal ${oldVal}, new value ${newVal}`)
+      console.log(`oldVal ${oldVal}, new value ${newVal}`);
+      this.$emit('changeDate', this.changedDate);
     },
 
-    counter(newVal, oldVal) {
-      this.$emit('changeDate', this.changedDate);
-      console.log(`changeDate ${this.changedDate}`);
-    },
+
 
 
     d3Data () {
@@ -179,10 +177,11 @@ export default {
         .attr('height', data => this.axis.y.scale(data));
     },
     addListeners () {
+      let that = this;
       let component = this;
       let clickedDate = this.d3Data.x;
       //console.log(date);
-      this.ddd.chart
+      that.ddd.chart
         .on('mouseover', function(yData, index) {
           let tooltipX = d3.event.pageX + 5;
           let tooltipY = d3.event.pageY - 100;
@@ -207,12 +206,23 @@ export default {
             .style('opacity', 1)
         });
 
-      this.ddd.chart.on("click", function (yData, index) {
-        // console.log(`Total New Cases : ${yData}`);
-        //this.changedDate = clickedDate[index];
+      // this.ddd.chart.on("click", function (yData, index) {
+      //   console.log(this)
+      // });
+      this.ddd.chart.on("click", (yData, index) => {
         this.changedDate = clickedDate[index];
         console.log(`inside clicker event : ${this.changedDate}`);
       });
+
+      //worked
+
+      /*this.ddd.chart.on("click", function (yData, index) {
+        // console.log(`Total New Cases : ${yData}`);
+        //this.changedDate = clickedDate[index];
+        that.changedDate = clickedDate[index];
+        console.log(`inside clicker event : ${that.changedDate}`);
+      });
+      */
     },
 
 
