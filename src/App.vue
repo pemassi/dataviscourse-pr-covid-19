@@ -21,8 +21,9 @@
     <footer class="page-footer font-small blue">
 
       <!-- Copyright -->
-      <div class="footer-copyright text-center py-3">© 2020 Copyright
-        Kyungyoon Kim, Daniel Pak
+      <div class="footer-copyright text-center py-3">
+        <p>Data is updated on {{covidMaxDate}}</p>
+        <p>© 2020 Copyright Kyungyoon Kim, Daniel Pak</p>
       </div>
       <!-- Copyright -->
 
@@ -32,34 +33,47 @@
 </template>
 
 <script>
+import { CovidData } from "./service/covid.data.service"
+
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    covidMaxDate() {
+      return CovidData.maxDate
+    },
+  },
+  mounted() {
+    CovidData.initData()
+  }
 }
 </script>
 
 <style>
 html, body {
-    height: 100%;
-
+  height: 100%;
 }
-
 
 .navLink {
   color: #ffffff;
   transition: transform .2s;
   padding: 10px;
 }
+
 .navLink:hover {
   color: #ffffff;
 }
 
 .container-fluid, .wrapper {
-    height: 100%;
+  height: 100%;
 }
 
 .content-area, .article-tree{
-    overflow:auto;
-    height: 100%;
+  overflow:auto;
+  height: 100%;
+}
+
+.footer-copyright {
+  color: gray;
 }
 
 </style>

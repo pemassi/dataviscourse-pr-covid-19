@@ -3,7 +3,7 @@
     class="elevation-5 pt-4"
     :style="wrapperStyles"
   >
-    <div :id="id">
+    <div :id="id" @click="counter++">
 
 
     </div>
@@ -79,11 +79,13 @@ export default {
   },
   watch: {
     changedDate(newVal, oldVal) {
-      console.log(`oldVal ${oldVal}, new value ${newVal}`);
-      this.$emit('changeDate', this.changedDate);
+      console.log(`oldVal ${oldVal}, new value ${newVal}`)
     },
 
-
+    counter(newVal, oldVal) {
+      this.$emit('changeDate', this.changedDate);
+      console.log(`changeDate ${this.changedDate}`);
+    },
 
 
     d3Data () {
@@ -177,11 +179,10 @@ export default {
         .attr('height', data => this.axis.y.scale(data));
     },
     addListeners () {
-      let that = this;
       let component = this;
       let clickedDate = this.d3Data.x;
       //console.log(date);
-      that.ddd.chart
+      this.ddd.chart
         .on('mouseover', function(yData, index) {
           let tooltipX = d3.event.pageX + 5;
           let tooltipY = d3.event.pageY - 100;
@@ -206,23 +207,12 @@ export default {
             .style('opacity', 1)
         });
 
-      // this.ddd.chart.on("click", function (yData, index) {
-      //   console.log(this)
-      // });
-      this.ddd.chart.on("click", (yData, index) => {
+      this.ddd.chart.on("click", function (yData, index) {
+        // console.log(`Total New Cases : ${yData}`);
+        //this.changedDate = clickedDate[index];
         this.changedDate = clickedDate[index];
         console.log(`inside clicker event : ${this.changedDate}`);
       });
-
-      //worked
-
-      /*this.ddd.chart.on("click", function (yData, index) {
-        // console.log(`Total New Cases : ${yData}`);
-        //this.changedDate = clickedDate[index];
-        that.changedDate = clickedDate[index];
-        console.log(`inside clicker event : ${that.changedDate}`);
-      });
-      */
     },
 
 
@@ -231,25 +221,20 @@ export default {
 </script>
 
 <style>
-  html {
-    overflow-y: auto;
-  }
+.application {
+  font-family: 'Raleway', sans-serif;
+  line-height: 2rem;
+  text-align: center;
+}
 
-
-  .application {
-    font-family: 'Raleway', sans-serif;
-    line-height: 2rem;
-    text-align: center;
-  }
-
-  .tooltip {
-    font-size: 1.5em;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background: #1f8ac0;
-    color: white;
-  }
+.tooltip {
+  font-size: 1.5em;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: #1f8ac0;
+  color: white;
+}
 </style>

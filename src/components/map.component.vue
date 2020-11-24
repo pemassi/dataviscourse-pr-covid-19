@@ -6,7 +6,7 @@
 
 <script>
 import * as d3 from "d3";
-import CoivdData, { CovidData } from "../service/covid.data.service"
+import { CovidData } from "../service/covid.data.service"
 
 export default {
   data () {
@@ -153,7 +153,7 @@ export default {
       {
         let v = this.getValue(d)
         if(v)
-          return 0.25
+          return 0.5
         else
           return 0.0
       }

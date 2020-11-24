@@ -34,6 +34,7 @@
     </div>
 
     <LineChart
+      v-if="false"
       class="lineChart"
       :d3-data="d3Data"
       @changeDate="updateDate"
@@ -121,13 +122,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  html, body{
-    background-color: #1f2329;
-  }
+html, body{
+  background-color: #1f2329;
+}
 
-  .lineChart {
-    background: black;
-  }
-
-
+.lineChart {
+  background: black;
+}
 </style>
