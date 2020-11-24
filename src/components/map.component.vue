@@ -15,10 +15,14 @@ export default {
     }
   },
   props: {
-      date: {
-          type: String,
-          default: "2020-11-13",
-      }
+    date: {
+      type: String,
+      default: "2020-11-13",
+    },
+    category: {
+      type: String,
+      default: "dailyCase"
+    }
   },
   data() {
     return {
@@ -31,6 +35,9 @@ export default {
   },
   watch: {
     date(newVal, oldVal) {
+      this.onDateChange()
+    },
+    category() {
       this.onDateChange()
     }
   },
@@ -144,10 +151,11 @@ export default {
     getOpacity(d) {
       if(d.dataHashMap[this.date])
       {
-        if(d.dataHashMap[this.date] <= 0)
-          return 0.0
+        let v = this.getValue(d)
+        if(v)
+          return 0.25
         else
-          return 0.5
+          return 0.0
       }
       else
       {
@@ -157,7 +165,17 @@ export default {
     getRadius(d) {
       if(d.dataHashMap[this.date])
       {
-        return this.circleScale(d.dataHashMap[this.date].new_cases)
+        let r = this.circleScale(this.getValue(d))
+
+        //Sometime there is no value with particular date.
+        if(r)
+        {
+          return r
+        }
+        else
+        {
+          return 0
+        }
       }
       else
       {
@@ -170,11 +188,47 @@ export default {
       this.circleScale = d3.scaleLinear()
         .domain(
           [
-            d3.min(filteredCovidData, d => d.dataHashMap[this.date].new_cases), 
-            d3.max(filteredCovidData, d => d.dataHashMap[this.date].new_cases)
+            d3.min(filteredCovidData, d => this.getValue(d)), 
+            d3.max(filteredCovidData, d => this.getValue(d))
           ]
         )
         .range([1, 100]).clamp(true);
+    },
+    getValue(d) {
+      switch(this.category)
+      {
+        case "dailyCase":
+          return d.dataHashMap[this.date].new_cases
+
+        case "deailyDeath":
+          return d.dataHashMap[this.date].new_deaths
+        
+        case "deailyCaseWithPoplulation":
+        {
+          let population = d.population
+          let newCase = d.dataHashMap[this.date].new_cases
+
+          if(population && newCase)
+            return newCase / population
+          else
+            return null
+        } 
+
+        case "deailyCaseWithPoplulationDensity":
+        {
+          let population = d.population_density
+          let newCase = d.dataHashMap[this.date].new_cases
+
+          if(population && newCase)
+            return newCase / population
+          else
+            return null
+        }
+
+        default:
+          console.error(`Unknown category [${this.category}]`)
+          return null
+      }
     }
   }
 }

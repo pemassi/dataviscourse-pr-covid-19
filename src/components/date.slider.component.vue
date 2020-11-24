@@ -1,14 +1,5 @@
 <template>
-  <div>
-   <div class="col">
-     <div class="row">
-       <button class="btn btn-primary" @click="onPlayButtonClicked">{{playing ? "Stop" : "Play"}}</button>
-     </div>
-     <div class="row">
-       <div ref="dateSlider" id="date-slider"></div>
-     </div>
-   </div>
-  </div>
+  <div style="width: 100%" ref="dateSlider" id="date-slider"></div>
 </template>
 
 <script>
@@ -16,7 +7,7 @@ import * as d3 from "d3"
 import moment from "moment"
 import CoivdData, { CovidData } from "../service/covid.data.service"
 
-var formatDateIntoYear = d3.timeFormat("%Y");
+var formatDateIntoYear = d3.timeFormat("%Y %b");
 var formatDate = d3.timeFormat("%b %Y");
 var parseDate = d3.timeParse("%m/%d/%y");
 
@@ -33,13 +24,20 @@ export default {
     width: {
       type: Number,
       default: 960
+    },
+    playing: {
+      type: Boolean,
+      default: false
+    },
+    initDate: {
+      type: String,
+      default: "2020-11-11"
     }
   },
   data() {
     return {
-      playing: false,
       currentValue: 0,
-      margin: {top:50, right:50, bottom:0, left:50},
+      margin: {top:25, right:25, bottom:0, left:25},
       handle: undefined,
       label: undefined,
       xScale: undefined,
@@ -47,6 +45,9 @@ export default {
     }
   },
   watch: {
+    playing(newVal) {
+      this.onPlayButtonClicked()
+    }
   },
   computed: {
     covidDataArray() {
@@ -73,9 +74,11 @@ export default {
   methods: {
     initSlider() {        
       let svg = d3.select("#date-slider")
+        .classed("svg-container", true)
         .append("svg")
-        .attr("width", this.width)
-        .attr("height", this.height)
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${this.width} ${this.height}`)
+        .classed("svg-content-responsive", true)
 
       this.xScale = d3.scaleTime()
         .domain([this.covidMinDate, this.covidMaxDate])
@@ -122,7 +125,11 @@ export default {
           .attr("class", "label")
           .attr("text-anchor", "middle")
           .text(formatDate(this.covidMinDate))
-          .attr("transform", "translate(0," + (-25) + ")")
+          .attr("transform", "translate(0, -25)")
+
+      //Init slider to init date
+      this.onSliderUpdated(new Date(this.initDate))
+      this.currentValue = this.xScale(new Date(this.initDate))
     },
     onSliderUpdated(date) {
       this.handle.attr("cx", this.xScale(date));
@@ -133,7 +140,7 @@ export default {
       this.$emit("on-date-update", moment(date).format("YYYY-MM-DD"))
     },
     onPlayButtonClicked() {
-      if(!this.playing)
+      if(this.playing)
       {
         this.timer = setInterval(this.onTimerStep, 250)
       }
@@ -141,8 +148,6 @@ export default {
       {
         clearInterval(this.timer)
       }
-
-      this.playing = !this.playing
     },
     onTimerStep() {
       let currentDate = this.xScale.invert(this.currentValue)
@@ -152,7 +157,7 @@ export default {
       if (nextValue >= this.calcWidth) 
       {
         clearInterval(this.timer)
-        this.playing = false
+        this.$emit("on-play-end")
       }
       else
       {
@@ -165,9 +170,28 @@ export default {
 </script>
 
 <style>
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 10%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
 .ticks {
   font-size: 10px;
 }
+.ticks > text {
+  fill: #dcdcdc;
+}
+
 .track,
 .track-inset,
 .track-overlay {
