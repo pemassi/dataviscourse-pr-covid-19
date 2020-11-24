@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import * as d3 from "d3";
 import CoivdData, { CovidData } from "../service/covid.data.service"
 
 export default {
@@ -136,7 +137,7 @@ export default {
       marker = marker.merge(markerEnter);
 
       marker.select("circle")
-        .transition().duration(1000)
+        .transition().duration(250)
         .attr("r", this.getRadius)
         .style('opacity', this.getOpacity);
     },

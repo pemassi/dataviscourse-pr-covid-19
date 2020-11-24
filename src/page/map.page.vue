@@ -1,9 +1,13 @@
 <template>
   <div>
+    <DateSlider
+      @on-date-update="updateDate"
+    ></DateSlider>
+
     <LineChart
       class="lineChart"
       :d3-data="d3Data"
-      @changeDate="updateDate($event)"
+      @changeDate="updateDate"
     ></LineChart>
 
     <div class="input-group mb-3">
@@ -19,15 +23,17 @@
 
 <script>
 import Map from "../components/map.component"
-import LineChart from "../components/LineChart";
-import CoivdData, { CovidData } from "../service/covid.data.service"
-var covidRawData = require("../assets/data/owid-covid-data-2020-11-14.json");
+import LineChart from "../components/LineChart"
+import DateSlider from "../components/date.slider.component"
 
+import CoivdData, { CovidData } from "../service/covid.data.service"
+var covidRawData = require("../assets/data/owid-covid-data-2020-11-14.json")
 
 export default {
   components: {
     Map,
-    LineChart
+    LineChart,
+    DateSlider,
   },
   data () {
     return {
@@ -79,10 +85,8 @@ export default {
     getD3data() {
       return this.d3Data;
     },
-    updateDate : function(updatedData) {
+    updateDate(updatedData) {
       this.selectedDate = updatedData;
-
-      // console.log(this.selectedDate)
     }
   }
 
