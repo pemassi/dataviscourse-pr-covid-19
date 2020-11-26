@@ -4,20 +4,19 @@
     :style="wrapperStyles"
   >
     <div :id="id" @click="counter++">
-
-
     </div>
-
   </div>
 </template>
 
 <script>
 import * as d3 from "d3";
 import CoivdData, { CovidData } from "../service/covid.data.service"
+var covidRawData = require("../assets/data/owid-covid-data-2020-11-14.json")
+
 const WRAPPER = {
-  width: 1100,
+  width: 900,
   height: 300,
-  padding: 60,
+  padding: 30,
   background: '#1f2329'
 };
 const CANVAS = {
@@ -45,19 +44,12 @@ export default {
       },
       ddd: {},
       id: 'timeLine-lineChart',
-
       changedDate: this.date,
-
       counter:0,
+      d3Data: undefined,
     }
   },
   props: {
-
-    d3Data: {
-      type: Object,
-      default: () => {}
-    },
-
     date: {
       type: String,
       default: "2020-11-13",
@@ -87,12 +79,12 @@ export default {
       console.log(`changeDate ${this.changedDate}`);
     },
 
-
     d3Data () {
       // X axis
       this.axis.x.values = d3.scaleLinear()
         .domain(0, this.d3Data.x.length)
         .range([0, CHART.width]);
+
       // x ticks
       this.axis.x.ticks = d3.axisBottom(this.axis.x.values)
         .ticks(10);
@@ -103,11 +95,10 @@ export default {
         .paddingOuter(0)
         .range([0, CHART.width]);
 
-
       let xGuide = this.ddd.svg.append('g')
         .attr('transform', `translate(${CANVAS.margin.left}, ${CANVAS.margin.top + CHART.height})`)
+        .attr("class", "axis")
         .call(this.axis.x.ticks);
-
 
       // Y axis
       this.axis.y.values = d3.scaleLinear()
@@ -125,16 +116,12 @@ export default {
       // translate(x, y) specifies where y axis begins, drawn from top to bottom
       let yGuide = this.ddd.svg.append('g')
         .attr('transform', `translate(${CANVAS.margin.left}, ${CANVAS.margin.top})`)
+        .attr("class", "axis")
         .call(this.axis.y.ticks);
 
       this.draw();
       this.addListeners();
     },
-
-
-
-
-
   },
   mounted () {
     d3.select(`#${this.id}`)
@@ -147,9 +134,21 @@ export default {
       .append('div')
       .attr('class', 'tooltip elevation-3')
       .style('opacity', 0);
+
+    let d3DataX = [];
+    let d3DataY = [];
+    let d3Tooltip = [];
+    covidRawData["OWID_WRL"].data.forEach(function (d) {
+      d3DataX.push(d.date);
+      d3DataY.push(d.new_cases);
+    });
+
+    this.d3Data = {
+      x: d3DataX,
+      y: d3DataY,
+    };
   },
   methods: {
-
     draw () {
       // translate(x, y) specifies where bar begin
       this.ddd.chart = this.ddd.svg.append('g')
@@ -158,7 +157,6 @@ export default {
         .data(this.d3Data.y)
         .enter()
         .append('rect');
-
 
       this.ddd.chart
         .attr('fill', (data, index) => {
@@ -181,13 +179,11 @@ export default {
     addListeners () {
       let component = this;
       let clickedDate = this.d3Data.x;
-      //console.log(date);
+      
       this.ddd.chart
         .on('mouseover', function(yData, index) {
           let tooltipX = d3.event.pageX + 5;
           let tooltipY = d3.event.pageY - 100;
-          // console.log(index);
-          // console.log(date[index]);
 
           component.ddd.tooltip.html(`Date : ${clickedDate[index]} <br> New Cases : ${yData}` )
             .style('left', `${tooltipX}px`)
@@ -208,10 +204,7 @@ export default {
         });
 
       this.ddd.chart.on("click", function (yData, index) {
-        // console.log(`Total New Cases : ${yData}`);
-        //this.changedDate = clickedDate[index];
         this.changedDate = clickedDate[index];
-        console.log(`inside clicker event : ${this.changedDate}`);
       });
     },
 
@@ -228,7 +221,7 @@ export default {
 }
 
 .tooltip {
-  font-size: 1.5em;
+  font-size: 1em;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -236,5 +229,15 @@ export default {
   border-radius: 5px;
   background: #1f8ac0;
   color: white;
+}
+
+.axis path {
+  stroke: white;
+}
+.axis line {
+  stroke: white;
+}
+.axis text {
+  fill: white;
 }
 </style>

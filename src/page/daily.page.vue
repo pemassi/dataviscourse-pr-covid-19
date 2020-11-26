@@ -33,13 +33,6 @@
       </div>
     </div>
 
-    <LineChart
-      v-if="false"
-      class="lineChart"
-      :d3-data="d3Data"
-      @changeDate="updateDate"
-    ></LineChart>
-
     <Map 
       :date="selectedDate"
       :category="category"
@@ -49,16 +42,13 @@
 
 <script>
 import Map from "../components/map.component"
-import LineChart from "../components/LineChart"
 import DateSlider from "../components/date.slider.component"
 
 import CoivdData, { CovidData } from "../service/covid.data.service"
-var covidRawData = require("../assets/data/owid-covid-data-2020-11-14.json")
 
 export default {
   components: {
     Map,
-    LineChart,
     DateSlider,
   },
   data () {
@@ -66,9 +56,6 @@ export default {
       selectedDate: "2020-11-11",
       datePlay: false,
       category: "dailyCase",
-      covidWorldData: [],
-      d3Data: {},
-      test: ""
     }
   },
 
@@ -87,31 +74,9 @@ export default {
 
   },
   mounted() {
-    console.log("Covid World data");
-    console.log(covidRawData["OWID_WRL"].data);
-    let d3DataX = [];
-    let d3DataY = [];
-    let d3Tooltip = [];
-    covidRawData["OWID_WRL"].data.forEach(function (d) {
-      d3DataX.push(d.date);
-      d3DataY.push(d.new_cases);
-
-    });
-
-    this.d3Data = {
-      x: d3DataX,
-      y: d3DataY,
-    };
-
-    //console.log(this.d3Data);
-
-
-
+    
   },
   methods: {
-    getD3data() {
-      return this.d3Data;
-    },
     updateDate(updatedData) {
       this.selectedDate = updatedData;
     }
@@ -122,9 +87,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-html, body{
-  background-color: #1f2329;
-}
+
 
 .lineChart {
   background: black;

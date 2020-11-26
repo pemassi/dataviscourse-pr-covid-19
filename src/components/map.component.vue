@@ -1,6 +1,7 @@
 <template>
   <div>
     <div ref="map" id="map"></div>
+    <div ref="tooltip" id="tooltip" class="tooltip elevation-3" style="opacity: 0;"></div>
   </div>
 </template>
 
@@ -30,7 +31,7 @@ export default {
       overlay: undefined,
       layer: undefined,
       projection: undefined,
-      circleScale: undefined
+      circleScale: undefined,
     }
   },
   watch: {
@@ -83,8 +84,7 @@ export default {
             .attr("class", "covid-case");
 
         overlay.onRemove = function () {
-          console.log("REMOVE")
-            d3.select('.covid-case').remove();
+          d3.select('.covid-case').remove();
         };
 
         overlay.draw = function () {
@@ -107,18 +107,52 @@ export default {
 
           marker
             .each(transform)
-            .attr("class", "marker");
+            .attr("class", "marker")
 
           marker.select("circle")
+            .attr("class", "marker-circle")
             .attr("cx", that.padding)
             .attr("cy", that.padding)
             .attr("r", that.getRadius)
             .style('opacity', that.getOpacity)
-            .attr('fill', d => {
-                return '#FB7E01'
+            .attr('fill', '#FB7E01')
+
+          console.log(marker.select("circle"))
+          
+          marker.select("circle")
+            .on("mouseover mousemove", function(d, i) {
+              let tooltipX = d3.event.pageX + 5;
+              let tooltipY = d3.event.pageY;
+
+              d3.select("#tooltip")
+                .html(`
+                  ${d.continent} / ${d.location}</br></br>
+                  
+                  ${that.getValue(d)}</br></br>
+
+                  Click to see detail information
+                `)
+                .style('left', `${tooltipX}px`)
+                .style('top', `${tooltipY}px`)
+                .style('opacity', 0.8);
+
+              d3.select(this)
+                .attr('fill', '#fb9f01')
+
+            })
+            .on('mouseout', function(d) {
+              d3.select("#tooltip")
+                .style('left', `-9999px`)
+                .style('top', `-9999px`)
+                .style('opacity', 0);
+
+              d3.select(this)
+                .attr('fill', '#FB7E01')
             });
 
           function transform(d) {
+            let data = d
+
             d = new google.maps.LatLng(+d.latitude, +d.longitude);
             d = that.projection.fromLatLngToDivPixel(d);
 
@@ -192,7 +226,7 @@ export default {
             d3.max(filteredCovidData, d => this.getValue(d))
           ]
         )
-        .range([1, 100]).clamp(true);
+        .range([2, 100]).clamp(true);
     },
     getValue(d) {
       switch(this.category)
@@ -250,6 +284,22 @@ export default {
   height: 500px;
   font: 10px sans-serif;
   position: absolute;
+  pointer-events: none;
+}
+
+.marker-circle {
+  pointer-events: all;
+}
+
+.tooltip {
+  font-size: 1em;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: #1f8ac0;
+  color: white;
 }
 
 </style>

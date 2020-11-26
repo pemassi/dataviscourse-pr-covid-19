@@ -5,8 +5,8 @@
         <span class="navbar-brand mb-0 h1">COVID-19</span>
 
         <ul class="navbar-nav" >
-          <li><router-link class="navLink" :to="{ name: 'Map' }">Map</router-link></li>
-          <li><router-link class="navLink" :to="{ name: 'Static' }">Static</router-link></li>
+          <li><router-link class="navLink" :to="{ name: 'Summary' }">Summary</router-link></li>
+          <li><router-link class="navLink" :to="{ name: 'Daily' }">Daily</router-link></li>
 
         </ul>
       </nav>
@@ -51,6 +51,7 @@ export default {
 <style>
 html, body {
   height: 100%;
+  background-color: #1f2329;
 }
 
 .navLink {

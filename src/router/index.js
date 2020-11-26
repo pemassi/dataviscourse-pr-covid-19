@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import MapPage from '@/page/map.page.vue'
-import StaticPage from '@/page/static.page.vue'
+import DailyPage from '@/page/daily.page.vue'
+import SummaryPage from '@/page/summary.page.vue'
 
 
 Vue.use(Router)
@@ -10,13 +10,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Map',
-      component: MapPage
+      name: 'Summary',
+      component: SummaryPage
     },
     {
-      path: '/',
-      name: 'Static',
-      component: StaticPage
+      path: '/daily',
+      name: 'Daily',
+      component: DailyPage
     },
 
 
