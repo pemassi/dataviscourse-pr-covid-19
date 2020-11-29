@@ -36,21 +36,38 @@
       </div>
     </div>
 
+    <br>
+    <br>
+
+    <div class="row align-items-center">
+      <div class="col">
+        <h3>Covid Trend</h3>
+      </div>
+      <div class="col">
+      </div>
+    </div>
+
+    <TrendChart
+      :selectedCountry="selectedCountry"
+    />
+
   </div>
 </template>
 
 <script>
 import { CovidData, covidRawData } from "../service/covid.data.service"
 import NumberAnimate from "../components/number.animate.component"
+import TrendChart from "../components/trend.chart.component"
 
 export default {
   components: {
     NumberAnimate,
+    TrendChart
   },
   data() {
     return {
       covidDataArray: [],
-      selectedCountry: null
+      selectedCountry: null,
     }
   },
   computed: {
