@@ -1,42 +1,46 @@
-// template: '<span>{{ tweeningValue }}</span>',
-//   props: {
-//     value: {
-//       type: Number,
-//       required: true
-//     }
-//   },
-//   data: function() {
-//     return {
-//       tweeningValue: 0
-//     }
-//   },
-//   watch: {
-//     value: function(newValue, oldValue) {
-//       this.tween(oldValue, newValue)
-//     }
-//   },
-//   mounted: function() {
-//     this.tween(0, this.value)
-//   },
-//   methods: {
-//     tween: function(startValue, endValue) {
-//       var vm = this
+<template>
+  <span>
+    {{ displayNumber.toLocaleString() }}
+  </span>
+</template>
 
-//       function animate() {
-//         if (TWEEN.update()) {
-//           requestAnimationFrame(animate)
-//         }
-//       }
-//       new TWEEN.Tween({
-//           tweeningValue: startValue
-//         })
-//         .to({
-//           tweeningValue: endValue
-//         }, 500)
-//         .onUpdate(function() {
-//           vm.tweeningValue = this.tweeningValue.toFixed(0)
-//         })
-//         .start()
-//       animate()
-//     }
-//   }
+<script>
+export default {
+  props: {
+    number: {
+      type: Number,
+      required: true
+    }
+  },
+    data () {
+    return {
+      displayNumber: 0,
+      interval: false
+    }
+  },
+  ready () {
+    this.displayNumber = this.number ? this.number : 0;
+  },
+  watch: {
+    number () {
+      clearInterval(this.interval);
+
+      if(this.number == this.displayNumber) {
+        return;
+      }
+
+      this.interval = window.setInterval(() => {
+        if(this.displayNumber != this.number) {
+          var change = (this.number - this.displayNumber) / 10;
+          change = change >= 0 ? Math.ceil(change) : Math.floor(change);
+          this.displayNumber = this.displayNumber + change;
+        }
+      }, 10);
+    }
+  }
+}
+</script>
+
+<style>
+</style>
+  

@@ -7,6 +7,7 @@
         <ul class="navbar-nav" >
           <li><router-link class="navLink" :to="{ name: 'Summary' }">Summary</router-link></li>
           <li><router-link class="navLink" :to="{ name: 'Daily' }">Daily</router-link></li>
+          <li><router-link class="navLink" :to="{ name: 'Detail' }">Detail</router-link></li>
 
         </ul>
       </nav>
@@ -37,13 +38,18 @@ import { CovidData } from "./service/covid.data.service"
 
 export default {
   name: 'App',
+  data() {
+    return {
+      covidMaxDate: "2020-01-01"
+    }
+  },
   computed: {
-    covidMaxDate() {
-      return CovidData.maxDate
-    },
   },
   mounted() {
     CovidData.initData()
+      .then(() => {
+        this.covidMaxDate = CovidData.maxDate
+      })
   }
 }
 </script>
@@ -52,6 +58,7 @@ export default {
 html, body {
   height: 100%;
   background-color: #1f2329;
+  color: #ffffff;
 }
 
 .navLink {

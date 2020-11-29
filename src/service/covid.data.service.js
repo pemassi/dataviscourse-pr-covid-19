@@ -8,6 +8,10 @@ const CovidData = {
    */
   covidDataArray: undefined,
 
+  covidDataHashMap: undefined,
+
+  covidRankData: {},
+
   /**
    * Maximum date in data
    */
@@ -22,9 +26,10 @@ const CovidData = {
     if(this.covidDataArray)
       return this.covidDataArray
 
-    console.log(covidRawData)
-    console.log(latlngMapping)
+    //console.log(covidRawData)
+    //console.log(latlngMapping)
 
+    this.covidDataHashMap = covidRawData
     this.covidDataArray = []
 
     //Data trasnform
@@ -36,6 +41,7 @@ const CovidData = {
       if(latlng == undefined)
         continue
 
+      //Create Array Data
       let temp = {"alpha3Code": key, ...covidRawData[key], "latitude": latlng.Latitude, "longitude": latlng.Longitude}
       temp.dataHashMap = {}
 
@@ -51,10 +57,51 @@ const CovidData = {
       });
 
       this.covidDataArray.push(temp)
+
+      //Create HashMap Data
+      this.covidDataHashMap[key].dataHashMap = temp.dataHashMap
+      this.covidDataHashMap[key].latitude = latlng.Latitude
+      this.covidDataHashMap[key].longitude = latlng.Longitude
     }
 
+    //Create New Case Rank Data
+    let temp = [...this.covidDataArray]
+    temp.sort((a, b) => {
+      let aValue = a.data[a.data.length - 1].total_cases
+      let bValue = b.data[b.data.length - 1].total_cases
+
+      aValue = aValue ? aValue : 0
+      bValue = bValue ? bValue : 0
+
+      return bValue - aValue
+    })
+
+    let count = 1
+    temp.forEach(d => {
+      this.covidRankData[d.alpha3Code] = { total_cases: count++ }
+    })
+
+    //Create Death Case Rank Data
+    temp.sort((a, b) => {
+      let aValue = a.data[a.data.length - 1].total_deaths
+      let bValue = b.data[b.data.length - 1].total_deaths
+
+      aValue = aValue ? aValue : 0
+      bValue = bValue ? bValue : 0
+
+      return bValue - aValue
+    })
+
+    count = 1
+    temp.forEach(d => {
+      this.covidRankData[d.alpha3Code]["total_deaths"] = count++
+    })
+
     console.log(`Success to init COVID data. [${this.minDate} ~ ${this.maxDate}]`);
+    console.log(`[Array]`)
     console.log(this.covidDataArray);
+    console.log(`[Hashmap]`)
+    console.log(this.covidDataHashMap);
 
     return this.covidDataArray
   },

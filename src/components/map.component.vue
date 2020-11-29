@@ -68,7 +68,7 @@ export default {
       }
 
       this.map = new google.maps.Map(this.$refs.map, options)
-
+      
       // Limit the zoom level
       google.maps.event.addListener(map, 'zoom_changed', function() {
         if (map.getZoom() < 2) map.setZoom(2);
@@ -116,19 +116,53 @@ export default {
             .attr("r", that.getRadius)
             .style('opacity', that.getOpacity)
             .attr('fill', '#FB7E01')
-
-          console.log(marker.select("circle"))
           
           marker.select("circle")
             .on("mouseover mousemove", function(d, i) {
               let tooltipX = d3.event.pageX + 5;
               let tooltipY = d3.event.pageY;
-
+              
               d3.select("#tooltip")
                 .html(`
+                  <img src="static/img/flag/${d.alpha3Code.toLowerCase()}.gif"/>
                   ${d.continent} / ${d.location}</br></br>
-                  
-                  ${that.getValue(d)}</br></br>
+                
+
+                  <div class="row">
+                    <div class="col">
+                      Population
+                    </div>
+                    <div class="col">
+                      Population Density
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      ${d.population ? d.population.toLocaleString() : "N/A"}
+                    </div>
+                    <div class="col">
+                      ${d.population_density ? d.population_density.toLocaleString() : "N/A"}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      New cases
+                    </div>
+                    <div class="col">
+                      New Deaths
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      ${d.dataHashMap[that.date].new_cases.toLocaleString()}
+                    </div>
+                    <div class="col">
+                      ${d.dataHashMap[that.date].new_deaths.toLocaleString()}
+                    </div>
+                  </div>
+
+                  </br>
 
                   Click to see detail information
                 `)
@@ -148,7 +182,10 @@ export default {
 
               d3.select(this)
                 .attr('fill', '#FB7E01')
-            });
+            })
+            .on('click', d => {
+              that.$router.push(`/detail?selected=${d.alpha3Code}`)
+            })
 
           function transform(d) {
             let data = d
