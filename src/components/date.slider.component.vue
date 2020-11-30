@@ -122,7 +122,7 @@ export default {
           .attr("r", 9)
 
       this.label = slider.append("text")  
-          .attr("class", "label")
+          .attr("class", "ticks")
           .attr("text-anchor", "middle")
           .text(formatDate(this.covidMinDate))
           .attr("transform", "translate(0, -25)")

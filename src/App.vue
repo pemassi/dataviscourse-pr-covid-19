@@ -15,8 +15,9 @@
 
     <div class="container-fluid">
       <br/>
-
-      <router-view/>
+      <keep-alive>
+        <router-view/>
+      </keep-alive>
     </div>
 
     <footer class="page-footer font-small blue">

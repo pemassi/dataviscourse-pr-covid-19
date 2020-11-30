@@ -26,12 +26,18 @@
     <div class="row align-items-center" style="text-align: center;">
       <div class="col">
         <h1>
-          <NumberAnimate :number="covidTotalCases"/> ({{covidTotalCasesRank}})
+         <span class="pointer" v-if="covidTotalCasesRank > 1" @click="lookCaseRank(covidTotalCasesRank - 1)">&lt;</span> 
+         <NumberAnimate :number="covidTotalCases"/> 
+         ({{nth(covidTotalCasesRank)}})
+         <span class="pointer" v-if="covidDataArray.length >= covidTotalCasesRank" @click="lookCaseRank(covidTotalCasesRank + 1)">&gt;</span> 
         </h1>
       </div>
       <div class="col">
         <h1>
-          <NumberAnimate :number="covidDeathCases"/> ({{covidDeathCasesRank}})
+          <span class="pointer" v-if="covidDeathCasesRank > 1" @click="lookDeathRank(covidDeathCasesRank - 1)">&lt;</span> 
+          <NumberAnimate :number="covidDeathCases"/> 
+          ({{nth(covidDeathCasesRank)}})
+          <span class="pointer" v-if="covidDataArray.length >= covidDeathCasesRank" @click="lookDeathRank(covidDeathCasesRank + 1)">&gt;</span> 
         </h1>
       </div>
     </div>
@@ -51,6 +57,15 @@
       :selectedCountry="selectedCountry"
     />
 
+    <br>
+    <br>
+
+
+    <DeathTrendChart
+      :selectedCountry="selectedCountry"
+    />
+
+
   </div>
 </template>
 
@@ -58,11 +73,13 @@
 import { CovidData, covidRawData } from "../service/covid.data.service"
 import NumberAnimate from "../components/number.animate.component"
 import TrendChart from "../components/trend.chart.component"
+import DeathTrendChart from "../components/death.trend.chart.component"
 
 export default {
   components: {
     NumberAnimate,
-    TrendChart
+    TrendChart,
+    DeathTrendChart
   },
   data() {
     return {
@@ -90,7 +107,7 @@ export default {
     covidTotalCases() {
       try
       {
-        return this.selectedCountryData.dataHashMap[this.covidMaxDate].total_cases
+        return this.selectedCountryData.data[this.selectedCountryData.data.length - 1].total_cases
       }
       catch(e)
       {
@@ -100,7 +117,7 @@ export default {
     covidDeathCases() {
       try
       {
-        return this.selectedCountryData.dataHashMap[this.covidMaxDate].total_deaths
+        return this.selectedCountryData.data[this.selectedCountryData.data.length - 1].total_deaths
       }
       catch(e)
       {
@@ -110,7 +127,7 @@ export default {
     covidTotalCasesRank() {
       try
       {
-        return this.nth(CovidData.covidRankData[this.selectedCountry].total_cases)
+        return CovidData.covidRankData[this.selectedCountry].total_cases
       }
       catch(e)
       {
@@ -120,7 +137,7 @@ export default {
     covidDeathCasesRank() {
       try
       {
-        return this.nth(CovidData.covidRankData[this.selectedCountry].total_deaths)
+        return CovidData.covidRankData[this.selectedCountry].total_deaths
       }
       catch(e)
       {
@@ -132,6 +149,12 @@ export default {
     selectedCountryData(newVal) {
       
     }
+  },
+  activated() {
+    let preSelectedCountry = this.$route.query.selected
+
+    if(preSelectedCountry)
+        this.selectedCountry = preSelectedCountry
   },
   mounted() {
     let preSelectedCountry = this.$route.query.selected
@@ -147,6 +170,26 @@ export default {
       })
   },
   methods: {
+    lookCaseRank(rank) {
+      for(var key in CovidData.covidRankData)
+      {
+        if(CovidData.covidRankData[key].total_cases == rank)
+        {
+          this.selectedCountry = key
+          return
+        }
+      }
+    },
+    lookDeathRank(rank) {
+      for(var key in CovidData.covidRankData)
+      {
+        if(CovidData.covidRankData[key].total_deaths == rank)
+        {
+          this.selectedCountry = key
+          return
+        }
+      }
+    },
     nth(n) {
       return n + '' + (["st","nd","rd"][((n+90)%100-10)%10-1]||"th")
     }
@@ -157,5 +200,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
+.pointer {cursor: pointer;}
 </style>

@@ -31,7 +31,7 @@ const CHART = {
   width: WRAPPER.width - WRAPPER.padding * 2 - CANVAS.margin.right - CANVAS.margin.left,
   height: WRAPPER.height - WRAPPER.padding * 2 - CANVAS.margin.top - CANVAS.margin.bottom,
   background: '#1f2329',
-  barColor: '#104c91',
+  barColor: '#ff6961',
   barOffset: 0
 };
 
@@ -43,7 +43,7 @@ export default {
         y: {}
       },
       ddd: {},
-      id: 'trendchart',
+      id: 'death-trendchart',
       changedDate: this.date,
       counter:0,
       d3Data: []
@@ -125,7 +125,7 @@ export default {
 
       // Y axis
       this.axis.y.values = d3.scaleLinear()
-        .domain([0, d3.max(this.d3Data, d => d.new_cases)])
+        .domain([0, d3.max(this.d3Data, d => d.new_deaths)])
         .range([CHART.height, 0]);
 
       // How many ticks are on the y axis
@@ -133,7 +133,7 @@ export default {
         .ticks(3);
 
       this.axis.y.scale = d3.scaleLinear()
-        .domain([0, d3.max(this.d3Data, d => d.new_cases)])
+        .domain([0, d3.max(this.d3Data, d => d.new_deaths)])
         .range([0, CHART.height]);
 
       // translate(x, y) specifies where y axis begins, drawn from top to bottom
@@ -174,8 +174,8 @@ export default {
         .delay((d, i) => i * 5)
         .duration(100)
         .ease(d3.easeCircleIn)
-        .attr('y', d => CHART.height - this.axis.y.scale(d.new_cases) + CANVAS.margin.top)
-        .attr('height', d => this.axis.y.scale(d.new_cases));
+        .attr('y', d => CHART.height - this.axis.y.scale(d.new_deaths) + CANVAS.margin.top)
+        .attr('height', d => this.axis.y.scale(d.new_deaths));
     },
     addListeners () {
       let component = this;
@@ -186,7 +186,7 @@ export default {
           let tooltipX = d3.event.pageX + 5;
           let tooltipY = d3.event.pageY;
 
-          component.ddd.tooltip.html(`Date : ${d.date} <br> New Cases : ${d.new_cases}` )
+          component.ddd.tooltip.html(`Date : ${d.date} <br> New Cases : ${d.new_deaths}` )
             .style('left', `${tooltipX}px`)
             .style('top', `${tooltipY}px`)
             .style('opacity', 0.8);
