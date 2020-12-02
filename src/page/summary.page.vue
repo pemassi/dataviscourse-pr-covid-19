@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div id="my_dataviz"></div>
+    <h1 style="text-align: center;">Total Covid-19 Cases in The World</h1>
+    <br/>
+    <h5 style="text-align: right; ">Click and Play with the Data</h5>
+    <div id="my_dataviz" style="position: relative"></div>
     <div ref="tooltip" id="tooltip" class="tooltip elevation-3" style="opacity: 0;"></div>
   </div>
 </template>
@@ -24,8 +27,6 @@ export default {
     };
   },
   created() {
-
-
   },
 
   watch: {
@@ -38,10 +39,8 @@ export default {
     .then(()=> {
       this.circularPacking();
     })
-    this.circularPacking();
   },
   updated() {
-    this.circularPacking();
   },
   methods: {
     wrapperStyles() {
