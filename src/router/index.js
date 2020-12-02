@@ -26,6 +26,11 @@ export default new Router({
       name: 'Detail',
       component: DetailPage
     },
+    {
+      path: '*',
+      name: 'Summary',
+      component: SummaryPage
+    }
 
 
   ]
