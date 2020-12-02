@@ -68,7 +68,7 @@ export default {
       }
 
       this.map = new google.maps.Map(this.$refs.map, options)
-      
+
       // Limit the zoom level
       google.maps.event.addListener(map, 'zoom_changed', function() {
         if (map.getZoom() < 2) map.setZoom(2);
@@ -116,17 +116,18 @@ export default {
             .attr("r", that.getRadius)
             .style('opacity', that.getOpacity)
             .attr('fill', '#FB7E01')
-          
+
           marker.select("circle")
             .on("mouseover mousemove", function(d, i) {
+              console.log(d)
               let tooltipX = d3.event.pageX + 5;
               let tooltipY = d3.event.pageY;
-              
+
               d3.select("#tooltip")
                 .html(`
                   <img src="static/img/flag/${d.alpha3Code.toLowerCase()}.gif"/>
                   ${d.continent} / ${d.location}</br></br>
-                
+
 
                   <div class="row">
                     <div class="col">
@@ -207,7 +208,7 @@ export default {
           }
         };
       };
-      
+
       overlay.setMap(this.map);
 
       this.overlay = overlay;
@@ -267,7 +268,7 @@ export default {
       this.circleScale = d3.scaleLinear()
         .domain(
           [
-            d3.min(filteredCovidData, d => this.getValue(d)), 
+            d3.min(filteredCovidData, d => this.getValue(d)),
             d3.max(filteredCovidData, d => this.getValue(d))
           ]
         )
@@ -281,7 +282,7 @@ export default {
 
         case "deailyDeath":
           return d.dataHashMap[this.date].new_deaths
-        
+
         case "deailyCaseWithPoplulation":
         {
           let population = d.population
@@ -291,7 +292,7 @@ export default {
             return newCase / population
           else
             return null
-        } 
+        }
 
         case "deailyCaseWithPoplulationDensity":
         {

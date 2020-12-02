@@ -21,6 +21,7 @@ const CovidData = {
    * Minimum date in data
    */
   minDate: "2099-12-31",
+  totalCases: 0,
 
   maxPopulationDensity: Number.MIN_SAFE_INTEGER,
 
@@ -46,16 +47,25 @@ const CovidData = {
         continue
 
       //Create Array Data
-      let temp = {"alpha3Code": key, ...covidRawData[key], "latitude": latlng.Latitude, "longitude": latlng.Longitude}
+      let temp = {
+        "alpha3Code": key,
+        ...covidRawData[key],
+        "latitude": latlng.Latitude,
+        "longitude": latlng.Longitude,
+
+      }
       temp.dataHashMap = {}
 
+      var total =""
       //Make dataHashMap with date
       temp.data.forEach(it => {
         if(it.date < this.minDate)
           this.minDate = it.date
 
+
         if(it.date > this.maxDate)
           this.maxDate = it.date
+
 
         temp.dataHashMap[it.date] = it
       });
