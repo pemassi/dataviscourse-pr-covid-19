@@ -44,25 +44,76 @@
 
     <br>
     <br>
+    <br>
+    <br>
+
+    <h3>Facts</h3>
+    <hr>
+
+     <div class="row align-items-center" style="text-align: center;">
+      <div class="col">
+        <span>Age Distribution</span>
+      </div>
+      <div class="col">
+        <span>Population Density</span>
+      </div>
+      <div class="col">
+        <span>Life Expectancy</span>
+      </div>
+    </div>
+
+    <div class="row align-items-center" style="text-align: center;">
+      <div class="col">
+        <AgePieChart
+          :selectedCountry="selectedCountry"
+        />
+      </div>
+      <div class="col">
+        <h2>
+          <NumberAnimate :number="populationDensity"/>({{nth(populationDensityRank)}})<br>
+          (<NumberAnimate :number="population"/>)
+        </h2>
+      </div>
+      <div class="col">
+        <h2>
+          <NumberAnimate :number="lifeExpectancy"/>({{nth(lifeExpectancyRank)}})<br>
+        </h2>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
 
     <div class="row align-items-center">
       <div class="col">
         <h3>Covid Trend</h3>
       </div>
       <div class="col">
+        <ul class="pagination justify-content-end">
+          <li :class="`page-item ${category === 'daily' ? 'active' : ''}`" @click="category='daily'"><a class="page-link">Daily</a></li>
+          <li :class="`page-item ${category === 'total' ? 'active' : ''}`" @click="category='total'"><a class="page-link">Total</a></li>
+        </ul>
       </div>
     </div>
+    <hr>
 
+    <h5>New Cases</h5>
     <TrendChart
       :selectedCountry="selectedCountry"
+      :category="category"
+      @on-date-click="onDateClicked"
     />
 
     <br>
     <br>
 
-
+    <h5>Death Cases</h5>
     <DeathTrendChart
       :selectedCountry="selectedCountry"
+      :category="category"
+      @on-date-click="onDateClicked"
     />
 
 
@@ -74,17 +125,20 @@ import { CovidData, covidRawData } from "../service/covid.data.service"
 import NumberAnimate from "../components/number.animate.component"
 import TrendChart from "../components/trend.chart.component"
 import DeathTrendChart from "../components/death.trend.chart.component"
+import AgePieChart from "../components/age.pie.chart.component"
 
 export default {
   components: {
     NumberAnimate,
     TrendChart,
-    DeathTrendChart
+    DeathTrendChart,
+    AgePieChart
   },
   data() {
     return {
       covidDataArray: [],
       selectedCountry: null,
+      category: 'daily'
     }
   },
   computed: {
@@ -144,6 +198,66 @@ export default {
         return "N/A"
       }
     },
+    population() {
+      try
+      {
+        return this.selectedCountryData.population
+      }
+      catch(e)
+      {
+        return 0
+      }
+    },
+    populationDensity() {
+      try
+      {
+        return Math.round(this.selectedCountryData.population_density)
+      }
+      catch(e)
+      {
+        return 0
+      }
+    },
+    populationDensityRank() {
+      try
+      {
+        return CovidData.covidRankData[this.selectedCountry].population_density
+      }
+      catch(e)
+      {
+        return "N/A"
+      }
+    },
+    lifeExpectancy() {
+      try
+      {
+        return Math.round(this.selectedCountryData.life_expectancy)
+      }
+      catch(e)
+      {
+        return 0
+      }
+    },
+    lifeExpectancyRank() {
+      try
+      {
+        return CovidData.covidRankData[this.selectedCountry].life_expectancy
+      }
+      catch(e)
+      {
+        return "N/A"
+      }
+    },
+    diabetesPrevalence() {
+      try
+      {
+        return Math.round(this.selectedCountryData.diabetes_prevalence)
+      }
+      catch(e)
+      {
+        return null
+      }
+    },
   },
   watch: {
     selectedCountryData(newVal) {
@@ -190,6 +304,9 @@ export default {
         }
       }
     },
+    onDateClicked(date, country) {
+      this.$router.push(`/daily?selectedDate=${date}&country=${country}&category=${this.category}`)
+    },
     nth(n) {
       return n + '' + (["st","nd","rd"][((n+90)%100-10)%10-1]||"th")
     }
@@ -201,4 +318,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .pointer {cursor: pointer;}
+
+hr {
+  border-top: 1px solid rgba(255,255,255,1);
+}
 </style>

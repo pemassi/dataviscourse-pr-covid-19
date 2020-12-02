@@ -183,8 +183,16 @@ export default {
               d3.select(this)
                 .attr('fill', '#FB7E01')
             })
-            .on('click', d => {
-              that.$router.push(`/detail?selected=${d.alpha3Code}`)
+            .on('click', function(d) {
+               d3.select("#tooltip")
+                .style('left', `-9999px`)
+                .style('top', `-9999px`)
+                .style('opacity', 0);
+
+              d3.select(this)
+                .attr('fill', '#FB7E01')
+
+              that.$router.push(`/detail?selected=${d.alpha3Code}&date=${that.date}`)
             })
 
           function transform(d) {

@@ -22,6 +22,10 @@ const CovidData = {
    */
   minDate: "2099-12-31",
 
+  maxPopulationDensity: Number.MIN_SAFE_INTEGER,
+
+  maxLifeExpectancy: Number.MIN_SAFE_INTEGER,
+
   async initData() {
     if(this.covidDataArray)
       return this.covidDataArray
@@ -55,6 +59,26 @@ const CovidData = {
 
         temp.dataHashMap[it.date] = it
       });
+
+      try
+      {
+        if(this.maxLifeExpectancy < temp.life_expectancy)
+          this.maxLifeExpectancy = temp.life_expectancy
+      }
+      catch(e)
+      {
+
+      }
+
+      try
+      {
+        if(this.maxPopulationDensity < temp.population_density)
+          this.maxPopulationDensity = temp.population_density
+      }
+      catch(e)
+      {
+
+      }
 
       this.covidDataArray.push(temp)
 
@@ -97,11 +121,45 @@ const CovidData = {
       this.covidRankData[d.alpha3Code]["total_deaths"] = count++
     })
 
+    //Population Density Rank Data
+    temp.sort((a, b) => {
+      let aValue = a.population_density
+      let bValue = b.population_density
+
+      aValue = aValue ? aValue : 0
+      bValue = bValue ? bValue : 0
+
+      return bValue - aValue
+    })
+
+    count = 1
+    temp.forEach(d => {
+      this.covidRankData[d.alpha3Code]["population_density"] = count++
+    })
+
+    //life_expectancy Rank Data
+    temp.sort((a, b) => {
+      let aValue = a.life_expectancy
+      let bValue = b.life_expectancy
+
+      aValue = aValue ? aValue : 0
+      bValue = bValue ? bValue : 0
+
+      return bValue - aValue
+    })
+
+    count = 1
+    temp.forEach(d => {
+      this.covidRankData[d.alpha3Code]["life_expectancy"] = count++
+    })
+
     console.log(`Success to init COVID data. [${this.minDate} ~ ${this.maxDate}]`);
     console.log(`[Array]`)
     console.log(this.covidDataArray);
     console.log(`[Hashmap]`)
     console.log(this.covidDataHashMap);
+    console.log(`[Rank]`)
+    console.log(this.covidRankData);
 
     return this.covidDataArray
   },

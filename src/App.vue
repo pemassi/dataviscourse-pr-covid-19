@@ -20,16 +20,14 @@
       </keep-alive>
     </div>
 
-    <footer class="page-footer font-small blue">
+    <!-- <footer class="page-footer font-small blue" style="padding-block-start: 40vh;">
 
-      <!-- Copyright -->
       <div class="footer-copyright text-center py-3">
         <p>Data is updated on {{covidMaxDate}}</p>
         <p>© 2020 Copyright Kyungyoon Kim, Daniel Pak</p>
       </div>
-      <!-- Copyright -->
 
-    </footer>
+    </footer> -->
 
   </div>
 </template>

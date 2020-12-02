@@ -74,7 +74,23 @@ export default {
 
   },
   mounted() {
-    
+    let preSelectedDate = this.$route.query.selectedDate
+
+    CovidData.initData()
+      .then(() => {
+        this.covidDataArray = CovidData.covidDataArray
+
+        if(preSelectedDate)
+          this.selectedDate = preSelectedDate
+        else
+          this.selectedDate = "2019-12-31"
+      })
+  },
+  activated() {
+    let preSelectedDate = this.$route.query.selectedDate
+
+    if(preSelectedDate)
+      this.updateDate(preSelectedDate)
   },
   methods: {
     updateDate(updatedData) {

@@ -2,6 +2,7 @@
   <div
     class="elevation-5 pt-4"
     :style="wrapperStyles"
+    ref="wrapper"
   >
     <div :id="id" @click="counter++">
     </div>
@@ -16,7 +17,7 @@ import moment from 'moment'
 const WRAPPER = {
   width: 900,
   height: 300,
-  padding: 30,
+  padding: 0,
   background: '#1f2329'
 };
 const CANVAS = {
@@ -24,7 +25,7 @@ const CANVAS = {
     top: 20,
     right: 20,
     bottom: 25,
-    left: 50
+    left: 70
   }
 };
 const CHART = {
@@ -44,9 +45,9 @@ export default {
       },
       ddd: {},
       id: 'trendchart',
-      changedDate: this.date,
+      changedDate: "2020-01-01",
       counter:0,
-      d3Data: []
+      d3Data: [],
     }
   },
   props: {
@@ -54,10 +55,14 @@ export default {
       type: String,
       default: "USA",
     },
+    category: {
+      type: String,
+      default: "daily",
+    }
   },
   computed: {
     wrapperStyles () {
-      return `height:${WRAPPER.height}px; width:${WRAPPER.width}px; margin:auto; background:${WRAPPER.background};`;
+      return `height:${WRAPPER.height}px; width: 100%; margin:auto; background:${WRAPPER.background};`;
     },
     covidDataArray() {
       return CovidData.covidDataArray
@@ -75,6 +80,7 @@ export default {
       }
       catch(e)
       {
+        console.error(e)
         return null
       }
     },
@@ -90,6 +96,45 @@ export default {
     selectedCountry (newVal) {
       this.d3Data = this.selectedCountryData.data
 
+      this.draw();
+      this.addListeners();
+    },
+
+    category(newVal) {
+      this.draw();
+      this.addListeners();
+    }
+  },
+  mounted () {
+    CovidData.initData()
+      .then(() => {
+        this.init()
+        this.draw()
+        this.addListeners()
+      })
+  },
+  methods: {
+    init() {
+      WRAPPER.width = this.$refs.wrapper.clientWidth
+      CHART.width = WRAPPER.width - WRAPPER.padding * 2 - CANVAS.margin.right - CANVAS.margin.left
+      CHART.height = WRAPPER.height - WRAPPER.padding * 2 - CANVAS.margin.top - CANVAS.margin.bottom
+
+      this.ddd.tooltip = d3.select('body')
+        .append('div')
+        .attr('class', 'tooltip elevation-3')
+        .style('opacity', 0)
+
+      window.addEventListener('resize', () => { 
+        WRAPPER.width = this.$refs.wrapper.clientWidth
+        CHART.width = WRAPPER.width - WRAPPER.padding * 2 - CANVAS.margin.right - CANVAS.margin.left
+        CHART.height = WRAPPER.height - WRAPPER.padding * 2 - CANVAS.margin.top - CANVAS.margin.bottom
+        
+        this.draw();
+        this.addListeners();
+      })
+    },
+
+    draw () {
       d3.select(`#${this.id}`).selectAll("*").remove()
       
       this.ddd.svg = d3.select(`#${this.id}`)
@@ -97,11 +142,6 @@ export default {
         .attr('width', CHART.width + CANVAS.margin.right + CANVAS.margin.left)
         .attr('height', CHART.height + CANVAS.margin.top + CANVAS.margin.bottom)
         .style('background', CHART.background)
-
-      this.ddd.tooltip = d3.select('body')
-        .append('div')
-        .attr('class', 'tooltip elevation-3')
-        .style('opacity', 0)
         
       // X axis
       this.axis.x.values = d3.scaleTime()
@@ -125,7 +165,7 @@ export default {
 
       // Y axis
       this.axis.y.values = d3.scaleLinear()
-        .domain([0, d3.max(this.d3Data, d => d.new_cases)])
+        .domain([0, d3.max(this.d3Data, d => this.getValue(d))])
         .range([CHART.height, 0]);
 
       // How many ticks are on the y axis
@@ -133,7 +173,7 @@ export default {
         .ticks(3);
 
       this.axis.y.scale = d3.scaleLinear()
-        .domain([0, d3.max(this.d3Data, d => d.new_cases)])
+        .domain([0, d3.max(this.d3Data, d => this.getValue(d))])
         .range([0, CHART.height]);
 
       // translate(x, y) specifies where y axis begins, drawn from top to bottom
@@ -142,15 +182,6 @@ export default {
         .attr("class", "axis")
         .call(this.axis.y.ticks);
 
-      this.draw();
-      this.addListeners();
-    },
-  },
-  mounted () {
-    
-  },
-  methods: {
-    draw () {
       // translate(x, y) specifies where bar begin
       this.ddd.chart = this.ddd.svg.append('g')
         .attr('transform', `translate(${CANVAS.margin.left + 1}, 0)`)
@@ -160,6 +191,7 @@ export default {
         .append('rect');
 
       this.ddd.chart
+        .attr("class", "pointer")
         .attr('fill', (data, index) => {
           return CHART.barColor
         })
@@ -174,8 +206,8 @@ export default {
         .delay((d, i) => i * 5)
         .duration(100)
         .ease(d3.easeCircleIn)
-        .attr('y', d => CHART.height - this.axis.y.scale(d.new_cases) + CANVAS.margin.top)
-        .attr('height', d => this.axis.y.scale(d.new_cases));
+        .attr('y', d => CHART.height - this.axis.y.scale(this.getValue(d)) + CANVAS.margin.top)
+        .attr('height', d => this.axis.y.scale(this.getValue(d)));
     },
     addListeners () {
       let component = this;
@@ -186,7 +218,7 @@ export default {
           let tooltipX = d3.event.pageX + 5;
           let tooltipY = d3.event.pageY;
 
-          component.ddd.tooltip.html(`Date : ${d.date} <br> New Cases : ${d.new_cases}` )
+          component.ddd.tooltip.html(`Date : ${d.date} <br> New Cases : ${component.getValue(d).toLocaleString()}` )
             .style('left', `${tooltipX}px`)
             .style('top', `${tooltipY}px`)
             .style('opacity', 0.8);
@@ -196,16 +228,34 @@ export default {
         })
         .on('mouseout', function(data) {
           component.ddd.tooltip.html('')
+            .style('left', `-999px`)
+            .style('top', `-999px`)
             .style('opacity', 0);
 
           d3.select(this)
             .transition()
             .duration(300)
             .style('opacity', 1)
-        });
+        })
+        .on('click', d => {
+          component.ddd.tooltip.html('')
+            .style('left', `-999px`)
+            .style('top', `-999px`)
+            .style('opacity', 0);
+
+          this.$emit("on-date-click", d.date, this.selectedCountry)
+        })
     },
-
-
+    getValue(d) {
+      switch(this.category)
+      {
+        case "daily":
+          return d.new_cases
+        
+        case "total":
+          return d.total_cases
+      }
+    }
   },
 };
 </script>
@@ -237,4 +287,6 @@ export default {
 .axis text {
   fill: white;
 }
+
+.pointer {cursor: pointer;}
 </style>
