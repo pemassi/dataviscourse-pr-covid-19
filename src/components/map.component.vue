@@ -119,7 +119,6 @@ export default {
 
           marker.select("circle")
             .on("mouseover mousemove", function(d, i) {
-              console.log(d)
               let tooltipX = d3.event.pageX + 5;
               let tooltipY = d3.event.pageY;
 

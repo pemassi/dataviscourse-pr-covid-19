@@ -31,7 +31,7 @@ export default {
     },
     initDate: {
       type: String,
-      default: "2020-11-11"
+      default: "2019-12-31"
     }
   },
   data() {

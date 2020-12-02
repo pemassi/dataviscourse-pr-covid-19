@@ -8,7 +8,7 @@
           <li><router-link class="navLink" :to="{ name: 'Summary' }">Summary</router-link></li>
           <li><router-link class="navLink" :to="{ name: 'Daily' }">Daily</router-link></li>
           <li><router-link class="navLink" :to="{ name: 'Detail' }">Detail</router-link></li>
-
+          <li><router-link class="navLink" :to="{ name: 'About' }">About</router-link></li>
         </ul>
       </nav>
     </header>

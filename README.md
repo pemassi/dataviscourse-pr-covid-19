@@ -8,6 +8,10 @@ This repository is for the University of Utah CS 5630 (Visualization for Data Sc
  
 - Daniel Pak (pic2725@gmail.com)
 
+## Website Link
+
+https://pemassi.github.io/dataviscourse-pr-covid-19-public/
+
 ## Build Setup
 In order to build the project, you need to install [`Node.js`](https://nodejs.org/en/) and `npm` fisrt. (If you install `Node.js`, `npm` will be installed together.)
 
@@ -38,6 +42,10 @@ npm run build --report
 - Process Book
 
     https://docs.google.com/document/d/1o0mB4Mb_l2FMFfzAJEGP8DAWjZZe7PCzBJZjghozRPU/edit?usp=sharing
+
+- Project Screen-Cast
+
+    https://youtu.be/wmgXtdAVfTk
 
 
 ## Reference
